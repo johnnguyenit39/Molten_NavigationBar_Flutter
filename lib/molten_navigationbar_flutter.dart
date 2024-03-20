@@ -194,7 +194,7 @@ class MoltenBottomNavigationBar extends StatelessWidget {
               return AnimatedPositioned(
                 curve: curve,
                 duration: duration ?? Duration(milliseconds: 150),
-                top: isSelected ? 0 : domeHeight,
+                top: isSelected ? 0 : domeHeight + 4,
                 bottom: 0,
                 left: _tabWidth * index + paddingLeft,
                 width: _normalizeDomeOnEdge(_tabWidth, index),
@@ -283,6 +283,7 @@ class _MoltenTabWrapper extends StatelessWidget {
         color: isSelected
             ? tab.selectedColor ?? Colors.white
             : tab.unselectedColor ?? Colors.grey,
+        size : isSelected ? 24 : 22,
       ),
       child: Container(
         height: circleSize,
