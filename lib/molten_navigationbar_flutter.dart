@@ -50,6 +50,8 @@ class MoltenBottomNavigationBar extends StatelessWidget {
   /// Applied to all border sides
   final Color? borderColor;
 
+  final bool? alwaysShowTitle;
+
   final List<BoxShadow>? boxShadow;
 
   /// How much each angle is curved.
@@ -81,6 +83,7 @@ class MoltenBottomNavigationBar extends StatelessWidget {
     this.borderSize = 0,
     this.borderRaduis,
     this.boxShadow,
+    this.alwaysShowTitle = false,
   }) : super(key: key);
 
   @override
@@ -102,7 +105,7 @@ class MoltenBottomNavigationBar extends StatelessWidget {
       final double _domeWidth = min(domeWidth, _tabWidth);
 
       assert(domeCircleSize <= (barHeight + domeHeight),
-      'domeCircleSize must be less than or equal to (barHeight + domeHeight)');
+          'domeCircleSize must be less than or equal to (barHeight + domeHeight)');
       final selectedTab = tabs[selectedIndex];
       double paddingLeft = 0;
       if (selectedIndex + 1 == ((tabs.length) / 2).ceil() &&
@@ -145,7 +148,7 @@ class MoltenBottomNavigationBar extends StatelessWidget {
               domeWidth: _domeWidth - _borderRaduis.topRight.x,
               domeHeight: domeHeight,
               domeColor:
-              borderSize > 0 ? (borderColor ?? _barColor) : _barColor,
+                  borderSize > 0 ? (borderColor ?? _barColor) : _barColor,
             ),
             // Actual dome
             _animatedPositionedDome(
@@ -202,15 +205,18 @@ class MoltenBottomNavigationBar extends StatelessWidget {
                   children: [
                     if (selectedIndex == index) const SizedBox(height: 4),
                     Expanded(
-                        child: Center(
-                          child: _MoltenTabWrapper(
-                            tab: entry.value,
-                            onTab: () => onTabChange(index),
-                            isSelected: isSelected,
-                            circleSize: domeCircleSize,
-                          ),
-                        )),
-                    if (isSelected && title != null) title,
+                      child: Center(
+                        child: _MoltenTabWrapper(
+                          tab: entry.value,
+                          onTab: () => onTabChange(index),
+                          isSelected: isSelected,
+                          circleSize: domeCircleSize,
+                        ),
+                      ),
+                    ),
+                    if ((alwaysShowTitle == true || isSelected) &&
+                        title != null)
+                      title,
                     if (selectedIndex == index) const SizedBox(height: 2),
                   ],
                 ),
@@ -283,7 +289,7 @@ class _MoltenTabWrapper extends StatelessWidget {
         color: isSelected
             ? tab.selectedColor ?? Colors.white
             : tab.unselectedColor ?? Colors.grey,
-        size : isSelected ? 24 : 22,
+        size: isSelected ? 24 : 22,
       ),
       child: Container(
         height: circleSize,
